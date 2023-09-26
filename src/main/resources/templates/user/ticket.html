@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="user/base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class="mt-5">
+         <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                    <i class="fas fa-user-circle"></i>&nbsp;[(${ticket.user.fullName})]
+                                    <span style="float: right !important; display: flex !important; margin-right: 10px;"><i class="fas fa-clock mt-1 mr-1"></i>[(${#dates.format(ticket.submittedDate, 'dd.MM.yyyy, HH:mm')})]</span>
+                        </div>
+                        <div class="card-body">
+                            [(${ticket.message})]
+                        </div>
+                    </div>
+
+                    <div th:each="ticketReply : ${ticketReplies}" class="card mt-5">
+
+                        <div class="card-header">
+                            <span th:if="${ticketReply.sender.role == 'ROLE_ADMIN'}" class="badge bg-primary admin-glow-badge"><i class="fas fa-user-circle"></i>&nbsp;ADMIN ~ [(${ticketReply.sender.fullName})]</span>
+                            <span th:if="${ticketReply.sender.role != 'ROLE_ADMIN'}"><i class="fas fa-user-circle"></i>&nbsp;[(${ticketReply.sender.fullName})]</span>
+                            <span style="float: right !important; display: flex !important; margin-right: 10px;"><i class="fas fa-clock mt-1 mr-1"></i>[(${#dates.format(ticketReply.repliedDate, 'dd.MM.yyyy, HH:mm')})]</span>
+                        </div>
+                        <div class="card-body">
+                             [(${ticketReply.message})]
+                             <span th:if="${ticketReply.sender.role != 'ROLE_ADMIN'}" style="float: right !important; display: flex !important; margin-right: 10px; margin-top: 3px;"><a th:href="'/me/support/ticket/view/'+${ticket.id}+'/?action=deleteMessage&messageId='+${ticketReply.id}" class="btn btn-danger btn-sm"><i class="fa-solid fa-xmark"></i>&nbsp;DELETE</a></span>
+
+                         </div>
+                    </div>
+
+                    <div th:if="${ticket.isClosed != true}" class="card mb-3 mt-5">
+                        <div class="card-header"><i class="fa-solid fa-thumbtack"></i>&nbsp;Send a Reply Message</div>
+                        <div class="card-body">
+                          <form action="/me/support/process-reply" method="POST">
+                            <input type="hidden" th:value="${ticket.id}" name="ticketId">
+                            <textarea class="form-control" name="replyMessage"  cols="30" rows="10" placeholder="Send a reply message.."></textarea>
+                            <div class="text-end mt-3">
+                             <button type="submit"  class="btn btn-warning btn-sm">REPLY <i class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-4 c5ec7c">
+                        <div class="card">
+                            <div class="card-header "><i class="fas fa-list"></i>&nbsp;&nbsp;Ticket #[(${ticket.id})]</div>
+                            <div class="card-body">
+                                <a th:if="${ticket.isClosed != true}" onclick="showLoader()" th:href="'/me/support/ticket/view/'+${ticket.id}+'/?action=closeTicket'" class="btn btn-danger btn-sm"><i class="fas fa-lock"></i>&nbsp;Close</a>
+                                <a th:if="${ticket.isClosed && ticket.closedBy == 'USER'}" onclick="showLoader()" th:href="'/me/support/ticket/view/'+${ticket.id}+'/?action=uncloseTicket'" class="btn btn-warning btn-sm"><i class="fas fa-unlock"></i>&nbsp;Unclose</a>
+                                <a th:href="'/me/server/view/'+${ticket.serverId}" class="btn btn-primary btn-sm">SERVER&nbsp;<i class="fa-solid fa-paper-plane"></i></a>
+                                <hr>
+                                Status: <span class="font-weight-bold" th:classappend="${ticket.status == 'Admin Response Received' ? 'text-success' : 'text-danger'}">[(${ticket.status})]</span>
+                                <br>
+                                Priority: <span class="text-success font-weight-bold">[(${ticket.priority})]</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    
+</body>
+</html>

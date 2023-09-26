@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <section style="margin-top: 80px !important;">
+    <div class="container">
+               <div class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <div style class="card">
+                        <div class="card-header text-center">
+                            <i class="fa-solid fa-user custom-icons"></i>&nbsp;Login
+                        </div>
+                        <div class="card-body">
+                            <form id="loginForm" action="/login" method="POST" class="row">
+    
+                                <!-- Email address field  -->
+                                <div class="col-md-12">
+                                    <label>Email Address or Username</label>
+                                    <div class="form-group">
+                                        <div class="input-group mb-4">
+                                            <input id="emailAddress" name="username" class="form-control" placeholder="Username or Email Address"
+                                                type="text" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Email address field end  -->
+    
+                                <!-- Password field  -->
+                                <div class="col-12">
+                                    <label>Password</label>
+                                    <div class="form-group">
+                                        <div class="input-group mb-4">
+                                            <input id="password" name="password" class="form-control" placeholder="Password"
+                                                type="password" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- password field end  -->
+    
+                                <!-- submit button  -->
+                                <div class="container text-center">
+                                    <button style="padding: 15px !important;" type="submit" class="btn btn-primary w-100">Login&nbsp;<i
+                                            class="fa fa-sign-in"></i></button>
+                                </div>
+                                <!-- submit button end  -->
+    
+                                <div class="container text-center mt-4">
+                                    <a class="text-white forgot-password">Forgot your Password?  <a data-toggle="modal" data-target="#forgotPasswordModal" class="badge badge-sm badge-danger password-reseter">Reset Now</a></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+               </div>
+            </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-white font-weight-bold" id="exampleModalLabel">Forgot your Password?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="row" action="/forgotPassword" method="post">
+             <div class="col-md-12">
+                To reset your password, please enter your registered email address below.
+                 <!-- Email address field  -->
+                 <div class="col-md-12 mt-3">
+                    <div class="form-group">
+                        <div class="input-group mb-4">
+                            <input name="email" class="form-control" placeholder="johndoe@example.com"
+                                type="email" required>
+                        </div>
+                    </div>
+                </div>
+                <!-- Email address field end  -->
+             </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary w-100">SUBMIT&nbsp;<i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  <!-- Forgot Password Modal end -->
+
+</section>
+</body>
+</html>
